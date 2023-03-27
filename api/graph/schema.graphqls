@@ -1,0 +1,22 @@
+## Queries
+
+type Project {
+  id: ID!
+  name: String!
+  code: String!
+}
+
+type Query {
+  projects: [Project!]!
+}
+
+## Mutations
+
+input NewProject {
+  name: String!
+  code: String!
+}
+
+type Mutation {
+  createProject(input: NewProject!): Project!
+}
