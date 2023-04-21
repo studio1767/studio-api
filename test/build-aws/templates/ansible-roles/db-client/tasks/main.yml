@@ -1,0 +1,58 @@
+## install the needed packages
+
+- name: install mariadb client
+  apt:
+    pkg:
+    - mariadb-client
+    state: present
+
+
+## upload certificates
+
+- name: upload ca certificate
+  copy:
+    src: certs
+    dest: /etc/mysql
+    owner: root
+    group: root
+    mode: 0644
+    directory_mode: 0755
+
+
+## upload the secrets
+
+- name: upload secrets
+  copy:
+    src: secrets
+    dest: /etc/mysql
+    owner: root
+    group: root
+    mode: 0640
+    directory_mode: 0750
+
+
+## configure TLS for the client
+
+- name: configure client ca certificate
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-client.cnf
+    insertafter: '\[client\]'
+    line: ssl-ca = /etc/mysql/certs/ca.crt
+
+- name: configure client verify server
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-client.cnf
+    regexp: '^#?\s*ssl-verify-server-cert'
+    line: ssl-verify-server-cert = on
+
+
+## helper scripts
+
+- name: upload helper script
+  copy:
+    src: scripts/
+    dest: /usr/local/admin/bin
+    owner: root
+    group: root
+    mode: 0755
+    directory_mode: 0755

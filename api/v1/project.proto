@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package api.v1;
+
+option go_package = "github.com/parlaynu/studio1767-api/api_v1";
+
+service Studio {
+  rpc Hello(HelloRequest) returns (HelloReply) {}
+  
+  rpc CreateProject(ProjectRequest) returns (Project) {}
+  rpc Projects(ProjectFilter) returns (stream Project) {}
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
+
+message ProjectRequest {
+  string name = 1;
+  string code = 2;
+}
+
+message ProjectFilter {
+  string regex = 1;
+}
+
+message Project {
+  string id = 1;
+  string name = 2;
+  string code = 3;
+}
+

@@ -1,0 +1,95 @@
+## install the needed packages
+
+- name: install mariadb server
+  apt:
+    pkg:
+    - mariadb-server
+    state: present
+
+
+## secure the db server
+
+- name: upload db config sql
+  template:
+    src: config.sql
+    dest: /var/tmp/config.sql
+
+- name: config mariadb
+  shell: mariadb < /var/tmp/config.sql
+
+- name: cleanup
+  file:
+    path: /var/tmp/config.sql
+    state: absent
+
+
+## upload certificates
+
+- name: upload keys and certificates
+  copy:
+    src: certs
+    dest: /etc/mysql
+    owner: root
+    group: root
+    mode: 0644
+    directory_mode: 0755
+  notify:
+    - restart mariadb
+
+- name: lockdown server key
+  file:
+    path: /etc/mysql/certs/server.key
+    owner: mysql
+    group: mysql
+    mode: 0600
+  notify:
+    - restart mariadb
+
+
+## configure the server TCP interface
+
+- name: configure listen addresses
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^bind-address'
+    line: bind-address = 0.0.0.0
+  notify:
+    - restart mariadb
+
+- name: configure server ca certificate
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^#?\s*ssl-ca'
+    line: ssl-ca = /etc/mysql/certs/ca.crt
+  notify:
+    - restart mariadb
+
+- name: configure server certificate
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^#?\s*ssl-cert'
+    line: ssl-cert = /etc/mysql/certs/server.crt
+  notify:
+    - restart mariadb
+
+- name: configure server key
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^#?\s*ssl-key'
+    line: ssl-key = /etc/mysql/certs/server.key
+  notify:
+    - restart mariadb
+
+- name: configure server require tls
+  lineinfile: 
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^#?\s*require-secure-transport'
+    line: require-secure-transport = on
+  notify:
+    - restart mariadb
+
+
+## run the handlers
+
+- name: run handlers
+  meta: flush_handlers

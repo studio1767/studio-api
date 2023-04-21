@@ -1,0 +1,5 @@
+dn: cn={{ group_name }},ou=groups,{{ domain_dn }}
+objectclass: top
+objectclass: posixGroup
+cn: {{ group_name }}
+gidNumber: {{ gid_number }}

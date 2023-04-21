@@ -1,0 +1,8 @@
+
+## create the test users
+
+- name: create users
+  shell:
+    cmd: /usr/local/admin/bin/adduser.py -r {{ item.uname }} {{ item.gname }} {{ item.fname }}
+  loop: "{{ users }}"
+    

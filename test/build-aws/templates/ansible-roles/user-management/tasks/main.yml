@@ -1,0 +1,44 @@
+## install the needed packages
+
+
+- name: install required packages
+  apt:
+    pkg:
+    - ldap-utils
+    - python3-ldap3
+    - python3-yaml
+    - python3-jinja2
+    state: present
+
+## upload the ca certificate
+
+- name: upload CA certificate
+  copy:
+    src: tools/ldappy/certs/ca.crt
+    dest: /etc/ldap/certs/
+    owner: root
+    group: root
+    mode: 0644
+    directory_mode: 0755
+
+
+## configure the client
+
+- name: configure TLS client
+  lineinfile: 
+    path: /etc/ldap/ldap.conf
+    regexp: '^TLS_CACERT'
+    line: TLS_CACERT    /etc/ldap/certs/ca.crt
+
+
+## upload the tools and secrets
+
+- name: upload user management tools
+  copy:
+    src: tools/
+    dest: /usr/local/admin/bin
+    owner: root
+    group: root
+    mode: 0755
+    directory_mode: 0755
+

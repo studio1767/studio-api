@@ -1,24 +1,11 @@
 
-listener: ${listener}
-
 service:
-  id: ${client_id}
-  secret: "${client_secret}"
-  state_secret: "${state_secret}"
-  cookie_hash_secret: "${cookie_hash_secret}"
-  cookie_enc_secret: "${cookie_enc_secret}"
-  redirect_urls:
-  %{ for url in redirect_urls ~}
-  - ${url}
-  %{ endfor ~}
-
-https:
-  cert_file: ${https_cert_file}
-  key_file: ${https_key_file}
-
-idp:
-  issuer_url: ${idp_issuer_url}
-  ca_cert_file: ${idp_ca_cert_file}
+  server: ${api_server}
+  listen_address: ${listen_address}
+  listen_port: ${listen_port}
+  ca_cert_file: ${ca_cert_file}
+  cert_file: ${cert_file}
+  key_file: ${key_file}
 
 db:
   server: ${db_server}
@@ -26,4 +13,11 @@ db:
   database: ${db_name}
   user: ${db_user}
   password: "${db_password}"
-  ca_cert_file: ${db_ca_cert_file}
+
+ldap:
+  server: ${ldap_server}
+  port: ${ldap_port}
+  search_base: ${ldap_search_base}
+  bind_dn: ${ldap_bind_dn}
+  bind_pw: "${ldap_bind_pw}"
+

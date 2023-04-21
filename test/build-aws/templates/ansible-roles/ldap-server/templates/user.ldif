@@ -1,0 +1,7 @@
+dn: cn=${bind_cn},ou=admin,${domain_dn}
+objectClass: top
+objectClass: person
+cn: ${bind_cn}
+sn: ${bind_cn}
+userPassword: {{ encoded_bind_password.stdout }}
+

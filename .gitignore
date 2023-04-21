@@ -7,8 +7,8 @@
 pyenv/
 __pycache__/
 
-# keep config templates but ignore the rest
-configs/**/*yaml
+# ignore config files - keep the templates
+config.yaml
 
 # keys and certs - only used for testing
 *crt
