@@ -15,9 +15,9 @@ db:
   password: "${db_password}"
 
 ldap:
-  server: ${ldap_server}
-  port: ${ldap_port}
+  server_uri: ${ldap_server_uri}
   search_base: ${ldap_search_base}
   bind_dn: ${ldap_bind_dn}
   bind_pw: "${ldap_bind_pw}"
+  start_tls: ${ldap_start_tls}
 

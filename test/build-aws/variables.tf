@@ -39,7 +39,7 @@ variable "services" {
       ]
       uris = []
       listen_address = "0.0.0.0"
-      listen_port = 389
+      listen_port = 636
     },
     db = {
       host_names = [
@@ -84,8 +84,7 @@ locals {
 variable "groups" {
   type = list(string)
   default = [
-    "admins",
-    "users"
+    "users", "operators", "admins"
   ]
 }
 
@@ -94,17 +93,26 @@ variable "users" {
     given_name = string
     family_name = string
     groups = list(string)
+    cert_groups = list(string)
   }))
   default = {
     admin = {
       given_name = "admin"
       family_name = "admin"
-      groups = ["admins", "users"]
+      groups = ["users", "admins"]
+      cert_groups = ["users"]
     },
     user1 = {
       given_name = "user"
       family_name = "one"
+      groups = ["users", "operators"]
+      cert_groups = ["operators"]
+    },
+    user2 = {
+      given_name = "user"
+      family_name = "two"
       groups = ["users"]
+      cert_groups = ["users"]
     }
   }
 }

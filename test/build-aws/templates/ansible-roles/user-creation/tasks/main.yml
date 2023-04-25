@@ -3,6 +3,16 @@
 
 - name: create users
   shell:
-    cmd: /usr/local/admin/bin/adduser.py -r {{ item.uname }} {{ item.gname }} {{ item.fname }}
-  loop: "{{ users }}"
+    cmd: /srv/studio1767-utils-admin/ldap-users/add-user.py -r {{ item.uname }} {{ item.gname }} {{ item.fname }}
+  loop: "{{ ldap_users }}"
     
+- name: create groups
+  shell:
+    cmd: /srv/studio1767-utils-admin/ldap-users/add-group.py {{ item }}
+  loop: "{{ ldap_groups }}"
+
+- name: add users to groups
+  shell:
+    cmd: /srv/studio1767-utils-admin/ldap-users/add-user2group.py {{ item.user }} {{ item.group }}
+  loop: "{{ ldap_user_groups }}"
+

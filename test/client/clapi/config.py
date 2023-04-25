@@ -18,6 +18,26 @@ def load_config(cfg_file):
         path = os.path.join(cfg_dir, path)
     config['ca_cert_file'] = path
 
+    path = os.path.expanduser(config['admin_cert_file'])
+    if not os.path.isabs(path):
+        path = os.path.join(cfg_dir, path)
+    config['admin_cert_file'] = path
+
+    path = os.path.expanduser(config['operator_key_file'])
+    if not os.path.isabs(path):
+        path = os.path.join(cfg_dir, path)
+    config['operator_key_file'] = path
+    
+    path = os.path.expanduser(config['operator_cert_file'])
+    if not os.path.isabs(path):
+        path = os.path.join(cfg_dir, path)
+    config['operator_cert_file'] = path
+
+    path = os.path.expanduser(config['admin_key_file'])
+    if not os.path.isabs(path):
+        path = os.path.join(cfg_dir, path)
+    config['admin_key_file'] = path
+    
     path = os.path.expanduser(config['user_cert_file'])
     if not os.path.isabs(path):
         path = os.path.join(cfg_dir, path)
@@ -28,16 +48,6 @@ def load_config(cfg_file):
         path = os.path.join(cfg_dir, path)
     config['user_key_file'] = path
 
-    path = os.path.expanduser(config['admin_cert_file'])
-    if not os.path.isabs(path):
-        path = os.path.join(cfg_dir, path)
-    config['admin_cert_file'] = path
-
-    path = os.path.expanduser(config['admin_key_file'])
-    if not os.path.isabs(path):
-        path = os.path.join(cfg_dir, path)
-    config['admin_key_file'] = path
-    
     return config
     
 

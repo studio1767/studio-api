@@ -6,12 +6,17 @@ import (
 	"strconv"
 
 	api "github.com/parlaynu/studio1767-api/api/v1"
+	"github.com/parlaynu/studio1767-api/internal/auth"
 )
 
 func (svr *studioServer) CreateProject(ctx context.Context, preq *api.ProjectRequest) (*api.Project, error) {
 	fmt.Printf("CreateProject: %s %s\n", preq.Name, preq.Code)
 
-	result, err := svr.db.Exec("INSERT INTO project (name, code) VALUES (?, ?)", preq.Name, preq.Code)
+	if err := auth.Authorize(ctx, "/", auth.CREATE); err != nil {
+		return nil, err
+	}
+
+	result, err := svr.dbClient.Exec("INSERT INTO project (name, code) VALUES (?, ?)", preq.Name, preq.Code)
 	if err != nil {
 		return nil, fmt.Errorf("create project failed: %w", err)
 	}
@@ -33,7 +38,12 @@ func (svr *studioServer) CreateProject(ctx context.Context, preq *api.ProjectReq
 func (svr *studioServer) Projects(filter *api.ProjectFilter, stream api.Studio_ProjectsServer) error {
 	fmt.Println("Projects")
 
-	rows, err := svr.db.Query("SELECT * FROM project")
+	ctx := stream.Context()
+	if err := auth.Authorize(ctx, "/", auth.READ); err != nil {
+		return err
+	}
+
+	rows, err := svr.dbClient.Query("SELECT * FROM project")
 	if err != nil {
 		return err
 	}

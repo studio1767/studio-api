@@ -1,4 +1,0 @@
-dn: cn={{ group_name }},ou=groups,{{ domain_dn }}
-changeType: modify
-add: memberUid
-memberUid: {{ uid }}

@@ -14,6 +14,15 @@
     path: /var/lib/ldap/done
   register: ldap_setup_done
 
+## configure server protocols
+
+- name: configure server protocols
+  lineinfile: 
+    path: /etc/default/slapd
+    regexp: '^SLAPD_SERVICES'
+    line: SLAPD_SERVICES="ldap://127.0.0.1:389/ ldaps:/// ldapi:///"
+  notify:
+    - restart slapd
 
 ## configure tls on the server
 

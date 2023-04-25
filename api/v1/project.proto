@@ -5,17 +5,17 @@ package api.v1;
 option go_package = "github.com/parlaynu/studio1767-api/api_v1";
 
 service Studio {
-  rpc Hello(HelloRequest) returns (HelloReply) {}
+  rpc Ping(PingRequest) returns (PingReply) {}
   
   rpc CreateProject(ProjectRequest) returns (Project) {}
   rpc Projects(ProjectFilter) returns (stream Project) {}
 }
 
-message HelloRequest {
+message PingRequest {
   string name = 1;
 }
 
-message HelloReply {
+message PingReply {
   string message = 1;
 }
 

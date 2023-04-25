@@ -14,10 +14,10 @@ class StudioStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Hello = channel.unary_unary(
-                '/api.v1.Studio/Hello',
-                request_serializer=v1_dot_project__pb2.HelloRequest.SerializeToString,
-                response_deserializer=v1_dot_project__pb2.HelloReply.FromString,
+        self.Ping = channel.unary_unary(
+                '/api.v1.Studio/Ping',
+                request_serializer=v1_dot_project__pb2.PingRequest.SerializeToString,
+                response_deserializer=v1_dot_project__pb2.PingReply.FromString,
                 )
         self.CreateProject = channel.unary_unary(
                 '/api.v1.Studio/CreateProject',
@@ -34,7 +34,7 @@ class StudioStub(object):
 class StudioServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Hello(self, request, context):
+    def Ping(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -55,10 +55,10 @@ class StudioServicer(object):
 
 def add_StudioServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Hello': grpc.unary_unary_rpc_method_handler(
-                    servicer.Hello,
-                    request_deserializer=v1_dot_project__pb2.HelloRequest.FromString,
-                    response_serializer=v1_dot_project__pb2.HelloReply.SerializeToString,
+            'Ping': grpc.unary_unary_rpc_method_handler(
+                    servicer.Ping,
+                    request_deserializer=v1_dot_project__pb2.PingRequest.FromString,
+                    response_serializer=v1_dot_project__pb2.PingReply.SerializeToString,
             ),
             'CreateProject': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateProject,
@@ -81,7 +81,7 @@ class Studio(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Hello(request,
+    def Ping(request,
             target,
             options=(),
             channel_credentials=None,
@@ -91,9 +91,9 @@ class Studio(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.v1.Studio/Hello',
-            v1_dot_project__pb2.HelloRequest.SerializeToString,
-            v1_dot_project__pb2.HelloReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/api.v1.Studio/Ping',
+            v1_dot_project__pb2.PingRequest.SerializeToString,
+            v1_dot_project__pb2.PingReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

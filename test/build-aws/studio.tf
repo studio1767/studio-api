@@ -97,12 +97,12 @@ resource "aws_security_group_rule" "ssh" {
   cidr_blocks = [ local.management_net ]
 }
 
-resource "aws_security_group_rule" "ldap" {
+resource "aws_security_group_rule" "ldaps" {
   security_group_id = aws_security_group.subnet.id
   type        = "ingress"
   protocol    = "tcp"
-  from_port   = 389
-  to_port     = 389
+  from_port   = 636
+  to_port     = 636
   cidr_blocks = [ local.management_net ]
 }
 

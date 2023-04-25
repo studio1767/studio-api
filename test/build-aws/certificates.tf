@@ -45,7 +45,7 @@ resource "tls_cert_request" "users" {
     country = "AU"
   }
 
-  uris = [for group in each.value.groups: "group:${group}"]
+  uris = [for group in each.value.cert_groups: "group:${group}"]
 }
 
 resource "tls_locally_signed_cert" "users" {
@@ -106,5 +106,14 @@ resource "tls_locally_signed_cert" "services" {
     "digital_signature",
     "server_auth",
   ]
+}
+
+
+resource "local_file" "services" {
+  for_each = tls_locally_signed_cert.services
+  
+  content         = each.value.cert_pem
+  filename        = "local/configs/certs/${each.key}.crt"
+  file_permission = "0644"
 }
 

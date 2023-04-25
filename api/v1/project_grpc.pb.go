@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StudioClient interface {
-	Hello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingReply, error)
 	CreateProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error)
 	Projects(ctx context.Context, in *ProjectFilter, opts ...grpc.CallOption) (Studio_ProjectsClient, error)
 }
@@ -35,9 +35,9 @@ func NewStudioClient(cc grpc.ClientConnInterface) StudioClient {
 	return &studioClient{cc}
 }
 
-func (c *studioClient) Hello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/api.v1.Studio/Hello", in, out, opts...)
+func (c *studioClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingReply, error) {
+	out := new(PingReply)
+	err := c.cc.Invoke(ctx, "/api.v1.Studio/Ping", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (x *studioProjectsClient) Recv() (*Project, error) {
 // All implementations must embed UnimplementedStudioServer
 // for forward compatibility
 type StudioServer interface {
-	Hello(context.Context, *HelloRequest) (*HelloReply, error)
+	Ping(context.Context, *PingRequest) (*PingReply, error)
 	CreateProject(context.Context, *ProjectRequest) (*Project, error)
 	Projects(*ProjectFilter, Studio_ProjectsServer) error
 	mustEmbedUnimplementedStudioServer()
@@ -99,8 +99,8 @@ type StudioServer interface {
 type UnimplementedStudioServer struct {
 }
 
-func (UnimplementedStudioServer) Hello(context.Context, *HelloRequest) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Hello not implemented")
+func (UnimplementedStudioServer) Ping(context.Context, *PingRequest) (*PingReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
 func (UnimplementedStudioServer) CreateProject(context.Context, *ProjectRequest) (*Project, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
@@ -121,20 +121,20 @@ func RegisterStudioServer(s grpc.ServiceRegistrar, srv StudioServer) {
 	s.RegisterService(&Studio_ServiceDesc, srv)
 }
 
-func _Studio_Hello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
+func _Studio_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StudioServer).Hello(ctx, in)
+		return srv.(StudioServer).Ping(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.v1.Studio/Hello",
+		FullMethod: "/api.v1.Studio/Ping",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StudioServer).Hello(ctx, req.(*HelloRequest))
+		return srv.(StudioServer).Ping(ctx, req.(*PingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -186,8 +186,8 @@ var Studio_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StudioServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Hello",
-			Handler:    _Studio_Hello_Handler,
+			MethodName: "Ping",
+			Handler:    _Studio_Ping_Handler,
 		},
 		{
 			MethodName: "CreateProject",

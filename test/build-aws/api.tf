@@ -33,11 +33,11 @@ resource "local_file" "api_server" {
     db_name          = var.studio_code
     db_user          = var.studio_code
     db_password      = random_password.db_user.result
-    ldap_server      = aws_instance.server["ldap"].public_ip
-    ldap_port        = var.services.ldap.listen_port
+    ldap_server_uri  = "ldaps://${aws_instance.server["ldap"].public_ip}:${var.services.ldap.listen_port}"
     ldap_search_base = local.studio_domain_dn
-    ldap_bind_dn   = "search.${local.studio_domain_dn}"
-    ldap_bind_pw   = random_password.ldap_search.result
+    ldap_bind_dn     = "cn=admin,${local.studio_domain_dn}"
+    ldap_bind_pw     = random_password.ldap_admin.result
+    ldap_start_tls   = false
   })
   filename        = "local/configs/server.yaml"
   file_permission = "0640"
@@ -88,10 +88,12 @@ resource "local_file" "api_client" {
     api_server      = local.services_all_ip["api"][0]
     api_port        = var.services.api.listen_port
     ca_cert_file    = "certs/ca.crt"
-    user_cert_file  = "certs/users/user1.crt"
-    user_key_file   = "certs/users/user1.key"
     admin_cert_file = "certs/users/admin.crt"
     admin_key_file  = "certs/users/admin.key"
+    operator_cert_file = "certs/users/user1.crt"
+    operator_key_file  = "certs/users/user1.key"
+    user_cert_file  = "certs/users/user2.crt"
+    user_key_file   = "certs/users/user2.key"
   })
   filename        = "local/configs/client.yaml"
   file_permission = "0640"
@@ -102,10 +104,12 @@ resource "local_file" "bad_api_client1" {
     api_server      = local.services_all_ip["api"][0]
     api_port        = var.services.api.listen_port
     ca_cert_file    = "certs/ca.crt"
-    user_cert_file  = "certs/users/bad-user.crt"
-    user_key_file   = "certs/users/bad-user.key"
     admin_cert_file = "certs/users/admin.crt"
     admin_key_file  = "certs/users/admin.key"
+    operator_cert_file = "certs/users/user1.crt"
+    operator_key_file  = "certs/users/user1.key"
+    user_cert_file  = "certs/users/bad-user.crt"
+    user_key_file   = "certs/users/bad-user.key"
   })
   filename        = "local/configs/bad-client-1.yaml"
   file_permission = "0640"
@@ -116,10 +120,12 @@ resource "local_file" "bad_api_client2" {
     api_server      = local.services_all_ip["api"][0]
     api_port        = var.services.api.listen_port
     ca_cert_file    = "certs/bad-ca.crt"
-    user_cert_file  = "certs/users/user1.crt"
-    user_key_file   = "certs/users/user1.key"
     admin_cert_file = "certs/users/admin.crt"
     admin_key_file  = "certs/users/admin.key"
+    operator_cert_file = "certs/users/user1.crt"
+    operator_key_file  = "certs/users/user1.key"
+    user_cert_file  = "certs/users/user2.crt"
+    user_key_file   = "certs/users/user2.key"
   })
   filename        = "local/configs/bad-client-2.yaml"
   file_permission = "0640"
@@ -130,10 +136,12 @@ resource "local_file" "bad_api_client3" {
     api_server      = local.services_all_ip["api"][0]
     api_port        = var.services.api.listen_port
     ca_cert_file    = "certs/bad-ca.crt"
-    user_cert_file  = "certs/users/bad-user.crt"
-    user_key_file   = "certs/users/bad-user.key"
     admin_cert_file = "certs/users/admin.crt"
     admin_key_file  = "certs/users/admin.key"
+    operator_cert_file = "certs/users/user1.crt"
+    operator_key_file  = "certs/users/user1.key"
+    user_cert_file  = "certs/users/bad-user.crt"
+    user_key_file   = "certs/users/bad-user.key"
   })
   filename        = "local/configs/bad-client-3.yaml"
   file_permission = "0640"

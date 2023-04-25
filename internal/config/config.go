@@ -28,11 +28,11 @@ type Config struct {
 	}
 
 	Ldap struct {
-		Server     string `yaml:"server"`
-		Port       int    `yaml:"port"`
+		ServerURI  string `yaml:"server_uri"`
 		SearchBase string `yaml:"search_base"`
 		BindDN     string `yaml:"bind_dn"`
 		BindPW     string `yaml:"bind_pw"`
+		StartTLS   bool   `yaml:"start_tls"`
 	}
 }
 

@@ -47,6 +47,10 @@ resource "aws_instance" "server" {
     Name = "${var.studio_code}-${each.key}"
   }
   
+  depends_on = [
+    aws_key_pair.ssh_key
+  ]
+  
   user_data = <<-EOF
   #!/usr/bin/env bash
   hostnamectl set-hostname ${var.studio_code}-${each.key}
@@ -129,6 +133,7 @@ resource "local_file" "ldap_host_vars" {
   content = templatefile("templates/ansible/host_vars/ldap-server.yml.tpl", {
     server_name = var.services.ldap.host_names[0]
     users       = var.users
+    groups      = var.groups
   })
   filename        = "local/ansible/host_vars/${var.services.ldap.host_names[0]}.yml"
   file_permission = "0640"
@@ -172,7 +177,7 @@ resource "template_dir" "ldap_utils" {
     ca_cert     = tls_self_signed_cert.ca.cert_pem
     domain_dns  = var.studio_domain
     domain_dn   = local.studio_domain_dn
-    bind_cn = "search"
+    bind_dn = "cn=search,ou=admin,${local.studio_domain_dn}"
     bind_password = random_password.ldap_search.result
   }
 }
@@ -182,10 +187,11 @@ resource "template_dir" "admin_user_management" {
   destination_dir = "local/ansible/roles/${local.user_management_role}"
 
   vars = {
-    ldap_server = "127.0.0.1"
-    domain_dns  = var.studio_domain
-    domain_dn   = local.studio_domain_dn
-    admin_password = random_password.ldap_admin.result
+    ldap_uri = "ldap://127.0.0.1:389"
+    bind_dn = "cn=admin,${local.studio_domain_dn}"
+    bind_pw = random_password.ldap_admin.result
+    root_dn = local.studio_domain_dn
+    start_tls = true
     ca_cert        = tls_self_signed_cert.ca.cert_pem
   }
 }

@@ -2,13 +2,21 @@
 
 This project provides a skeleton API server using gRPC and mTLS for authentication.
 
-The certificate subject common name is expected to be an email address that can be used to look
-up additional information about the user in LDAP such as group membership for authorization.
+The certificate subject common name is expected to be an email address which can be used to
+identify the user in the LDAP directory.
 
-Additionally, group membership is within the certificate itself and these groups will be checked
-for authorization before any LDAP lookup.
+Group membership for the user is determined from the certificate's SAN URI field and from the 
+configured LDAP server.
 
-Note - the authorization code is not implemented as yet. Coming soon.
+Group membership is used for authorization of tasks. The implemented authorization is very simple
+and for demonstration purposes only. It supports three groups with the following permissions:
+
+    admins: create, read, update, delete
+    operators: create, read, update
+    users: read
+
+A production authorization scheme would be more sophisticated, and consider project
+related group membership.
 
 
 ## Quickstart

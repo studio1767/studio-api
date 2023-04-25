@@ -6,7 +6,7 @@
     dest: /var/tmp/config.sql
 
 - name: create schema
-  shell: mariadb -h ${db_server} -u ${db_admin} -p"${db_admin_password}" < /var/tmp/config.sql
+  shell: mariadb -h ${db_server} -u ${db_admin} -p'${db_admin_password}' < /var/tmp/config.sql
 
 - name: cleanup
   file:
