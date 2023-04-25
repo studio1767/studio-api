@@ -51,9 +51,6 @@ func (a *authenticator) Authenticate(ctx context.Context) (context.Context, erro
 	if peer.AuthInfo == nil || peer.AuthInfo.AuthType() != "tls" {
 		return ctx, status.New(codes.Unauthenticated, "no auth information found").Err()
 	}
-	if peer.AuthInfo == nil || peer.AuthInfo.AuthType() != "tls" {
-		return ctx, status.New(codes.Unauthenticated, "no tls auth information found").Err()
-	}
 
 	// get the tls info to extract the common name and any groups
 	tlsInfo := peer.AuthInfo.(credentials.TLSInfo)
