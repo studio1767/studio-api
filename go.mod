@@ -1,4 +1,4 @@
-module github.com/parlaynu/studio1767-api
+module github.com/studio1767/studio-api
 
 go 1.20
 

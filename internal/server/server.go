@@ -8,8 +8,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	api "github.com/parlaynu/studio1767-api/api/v1"
-	"github.com/parlaynu/studio1767-api/internal/auth"
+	api "github.com/studio1767/studio-api/api/v1"
+	"github.com/studio1767/studio-api/internal/auth"
 )
 
 func New(sTlsConfig *tls.Config, dbClient *sql.DB, authn auth.Authenticator, opts ...grpc.ServerOption) (*grpc.Server, error) {

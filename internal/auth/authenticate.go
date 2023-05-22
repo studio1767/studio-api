@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/status"
 
-	"github.com/parlaynu/studio1767-api/internal/config"
+	"github.com/studio1767/studio-api/internal/config"
 )
 
 type Authenticator interface {

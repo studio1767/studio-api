@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
-	api "github.com/parlaynu/studio1767-api/api/v1"
-	"github.com/parlaynu/studio1767-api/internal/auth"
+	api "github.com/studio1767/studio-api/api/v1"
+	"github.com/studio1767/studio-api/internal/auth"
 )
 
 func (svr *studioServer) CreateProject(ctx context.Context, preq *api.ProjectRequest) (*api.Project, error) {

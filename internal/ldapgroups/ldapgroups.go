@@ -8,8 +8,8 @@ import (
 
 	"github.com/go-ldap/ldap/v3"
 
-	"github.com/parlaynu/studio1767-api/internal/auth"
-	"github.com/parlaynu/studio1767-api/internal/config"
+	"github.com/studio1767/studio-api/internal/auth"
+	"github.com/studio1767/studio-api/internal/config"
 )
 
 var (

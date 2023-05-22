@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.v1;
 
-option go_package = "github.com/parlaynu/studio1767-api/api_v1";
+option go_package = "github.com/studio1767/studio-api/api_v1";
 
 service Studio {
   rpc Ping(PingRequest) returns (PingReply) {}

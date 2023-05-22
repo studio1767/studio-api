@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 
-	"github.com/parlaynu/studio1767-api/internal/config"
+	"github.com/studio1767/studio-api/internal/config"
 )
 
 func NewClient(cfg *config.Config, tlsConfig *tls.Config) (*sql.DB, error) {

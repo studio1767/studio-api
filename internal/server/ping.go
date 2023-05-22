@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	api "github.com/parlaynu/studio1767-api/api/v1"
-	"github.com/parlaynu/studio1767-api/internal/auth"
+	api "github.com/studio1767/studio-api/api/v1"
+	"github.com/studio1767/studio-api/internal/auth"
 )
 
 func (svr *studioServer) Ping(ctx context.Context, req *api.PingRequest) (*api.PingReply, error) {

@@ -11,11 +11,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/parlaynu/studio1767-api/internal/auth"
-	"github.com/parlaynu/studio1767-api/internal/config"
-	"github.com/parlaynu/studio1767-api/internal/db"
-	"github.com/parlaynu/studio1767-api/internal/ldapgroups"
-	"github.com/parlaynu/studio1767-api/internal/server"
+	"github.com/studio1767/studio-api/internal/auth"
+	"github.com/studio1767/studio-api/internal/config"
+	"github.com/studio1767/studio-api/internal/db"
+	"github.com/studio1767/studio-api/internal/ldapgroups"
+	"github.com/studio1767/studio-api/internal/server"
 )
 
 func main() {
